@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link rel="stylesheet" href=".{{ url_for('static', filename='css/chat.css') }}">
+
+<div class="chat-container">
+  <div class="chat-header">
+    <h1>💬 LegalAI 💬</h1>
+    <p class="subtitle">AI assistant with file & image upload support</p>
+  </div>
+  
+  <div id="chatWindow" class="chat-window">
+    <!-- Messages will be injected here by JavaScript -->
+  </div>
+
+  <form id="chatForm" class="chat-form" enctype="multipart/form-data">
+    <!-- File preview area -->
+    <div id="filePreview" class="mb-2 d-flex flex-wrap gap-2"></div>
+
+    <div class="chat-input-row">
+      <div class="message-input-group">
+        <input type="text" name="message" id="messageInput" class="glass-input" placeholder="Type your message..." autocomplete="off" required>
+      </div>
+
+      <div class="file-input-group">
+        <div class="file-upload-wrapper">
+          <input class="file-upload-input" type="file" id="fileInput" name="files" multiple>
+          <div class="file-upload-button" id="fileUploadButton">
+            <svg class="file-upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+            </svg>
+            <span id="fileButtonText">Choose Files</span>
+            <span id="fileCount" class="file-count" style="display: none;"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="send-button-group">
+        <button class="send-button" type="submit">Send</button>
+      </div>
+    </div>
+
+    <!-- Hidden geolocation fields -->
+    <input type="hidden" name="lat" id="geoLat">
+    <input type="hidden" name="lon" id="geoLon">
+    <input type="hidden" name="accuracy" id="geoAcc">
+    <input type="hidden" name="country" id="geoCountry">
+    <input type="hidden" name="country_code" id="geoCountryCode">
+  </form>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+
+<!-- Enhanced file upload interaction -->
+<script>
+  (function() {
+    const fileInput = document.getElementById('fileInput');
+    const fileButton = document.getElementById('fileUploadButton');
+    const fileButtonText = document.getElementById('fileButtonText');
+    const fileCount = document.getElementById('fileCount');
+
+    // Update button appearance when files are selected
+    fileInput.addEventListener('change', function() {
+      const files = this.files;
+      if (files.length > 0) {
+        fileButton.classList.add('has-files');
+        fileButtonText.textContent = files.length === 1 ? 'File Selected' : 'Files Selected';
+        fileCount.textContent = files.length;
+        fileCount.style.display = 'inline-block';
+      } else {
+        fileButton.classList.remove('has-files');
+        fileButtonText.textContent = 'Choose Files';
+        fileCount.style.display = 'none';
+      }
+    });
+
+    // Add drag and drop functionality
+    let dragCounter = 0;
+
+    fileButton.addEventListener('dragenter', function(e) {
+      e.preventDefault();
+      dragCounter++;
+      this.style.borderColor = 'rgba(99, 102, 241, 0.8)';
+      this.style.background = 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%)';
+    });
+
+    fileButton.addEventListener('dragleave', function(e) {
+      e.preventDefault();
+      dragCounter--;
+      if (dragCounter === 0) {
+        this.style.borderColor = '';
+        this.style.background = '';
+      }
+    });
+
+    fileButton.addEventListener('dragover', function(e) {
+      e.preventDefault();
+    });
+
+    fileButton.addEventListener('drop', function(e) {
+      e.preventDefault();
+      dragCounter = 0;
+      this.style.borderColor = '';
+      this.style.background = '';
+      
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        fileInput.files = files;
+        // Trigger change event
+        fileInput.dispatchEvent(new Event('change'));
+      }
+    });
+  })();
+</script>
+
+<!-- ✨ Geolocation + optional reverse geocoding -->
+<script>
+  (function () {
+    const latEl = document.getElementById('geoLat');
+    const lonEl = document.getElementById('geoLon');
+    const accEl = document.getElementById('geoAcc');
+    const countryEl = document.getElementById('geoCountry');
+    const countryCodeEl = document.getElementById('geoCountryCode');
+
+    const ENABLE_REVERSE_GEOCODE = true;
+
+    function setGeoHiddenFields(pos) {
+      const { latitude, longitude, accuracy } = pos.coords;
+      latEl.value = String(latitude);
+      lonEl.value = String(longitude);
+      accEl.value = accuracy != null ? String(accuracy) : "";
+      console.log('Geolocation set:', latitude, longitude, accuracy);
+
+      if (!ENABLE_REVERSE_GEOCODE) return;
+
+      const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(latitude)}&lon=${encodeURIComponent(longitude)}&zoom=3&addressdetails=1`;
+
+      fetch(url, {
+        headers: {
+          'Accept': 'application/json',
+          // Some services prefer an explicit user-agent:
+          'User-Agent': 'YourAppName/1.0 (contact@example.com)'
+        }
+      })
+      .then(r => r.ok ? r.json() : Promise.reject(new Error('Reverse geocode failed')))
+      .then(data => {
+        const addr = data?.address || {};
+        if (addr.country) countryEl.value = addr.country;
+        if (addr.country_code) countryCodeEl.value = addr.country_code.toUpperCase();
+        console.log('Reverse geocode:', countryEl.value, countryCodeEl.value);
+      })
+      .catch(err => console.warn('Reverse geocode error:', err.message));
+    }
+
+    function handleGeoError(err) {
+      console.warn('Geolocation error:', err?.message || err);
+    }
+
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(setGeoHiddenFields, handleGeoError, {
+        enableHighAccuracy: false,
+        timeout: 5000,
+        maximumAge: 300000
+      });
+    } else {
+      console.warn('Geolocation API not available in this browser.');
+    }
+
+    // Try again right before submit if still empty (non-blocking)
+    document.getElementById('chatForm').addEventListener('submit', () => {
+      if ((!latEl.value || !lonEl.value) && 'geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(setGeoHiddenFields, handleGeoError);
+      }
+    });
+  })();
+</script>
+{% endblock %}

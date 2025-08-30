@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="glass-card" style="max-width: 450px; width: 100%;">
+  <div style="text-align: center; margin-bottom: 2rem;">
+    <h1 style="color: #2b6cb0; font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem;">
+      🔐 Login
+    </h1>
+    <p style="color: #4a5568; font-size: 1rem;">
+      Welcome back! Please sign in to your account.
+    </p>
+  </div>
+  
+  <form method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    
+    <div class="form-group">
+      <label class="form-label">Email Address</label>
+      <input type="email" name="email" class="glass-input" placeholder="Enter your email" required>
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" name="password" class="glass-input" placeholder="Enter your password" required>
+    </div>
+    
+    <div style="display: flex; gap: 1rem; flex-direction: column;">
+      <button type="submit" class="glass-button">Sign In</button>
+      <a href="{{ url_for('register') }}" class="glass-button-outline">Create New Account</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

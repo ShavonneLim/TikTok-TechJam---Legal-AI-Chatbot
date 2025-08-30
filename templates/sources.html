@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regulatory Website Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sources.css') }}">
+</head>
+<body>
+  <nav class="app-nav">
+    <a class="brand" href="{{ url_for('index') }}">TIDO</a>
+    <div class="nav-links">
+      {% if current_user.is_authenticated %}
+        <a class="nav-link" href="{{ url_for('chat') }}">Chat</a>
+        <a class="nav-link" href="{{ url_for('sources') }}">Sources</a>
+        <span class="navbar-text">Hi, {{ current_user.name }}</span>
+        <a class="btn" href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a class="btn" href="{{ url_for('login') }}">Login</a>
+      {% endif %}
+    </div>
+  </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>📋 Regulatory Website Manager</h1>
+            <p class="subtitle">Add and manage regulatory websites for scraping</p>
+        </div>
+
+        <div class="main-content">
+            <div class="left-panel">
+                <h2 class="section-title">➕ Add New Website</h2>
+                
+                {% if message %}
+                    <div class="message {{ 'success' if 'Success' in message else 'error' }}">
+                        {{ message }}
+                    </div>
+                {% endif %}
+
+                <form action="/sources" method="post">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="form-group">
+                        <label for="name">Website Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter a descriptive name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="url">Website URL</label>
+                        <input type="url" id="url" name="url" placeholder="https://example.com/regulations" required>
+                    </div>
+                    
+                    <!-- <div class="form-group">
+                        <label for="scraper_type">Scraper Type</label>
+                        <select id="scraper_type" name="scraper_type" required>
+                            <option value="">Select scraper type...</option>
+                            <option value="generic_html">Generic HTML</option>
+                            <option value="wikipedia_generic">Wikipedia</option>
+                            <option value="pdf">PDF Document</option>
+                        </select>
+                    </div> -->
+                    
+                    <button type="submit" class="glass-button">Add Website</button>
+                </form>
+            </div>
+
+            <div class="right-panel">
+                <h2 class="section-title">📚 Existing Regulatory Websites</h2>
+                {% if websites %}
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>URL</th>
+                                    <th>Scraper Type</th>
+                                    <th>Date Added</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for website in websites %}
+                                <tr>
+                                    <td>{{ website.name }}</td>
+                                    <td>
+                                        <a href="{{ website.url }}" target="_blank" class="url-link">
+                                            {{ website.url }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span class="tag">{{ website.scraper_type }}</span>
+                                    </td>
+                                    <td>{{ website.date_added }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <div class="empty-icon">🔍</div>
+                        <p>No regulatory websites have been added yet.</p>
+                        <p>Use the form on the left to add your first website!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-refresh page every 30 seconds to show newly scraped data
+        setTimeout(() => {
+            location.reload();
+        }, 30000);
+    </script>
+</body>
+</html>

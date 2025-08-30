@@ -1,0 +1,273 @@
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, #4299e1 0%, #ffffff 100%);
+            min-height: 100vh;
+            color: #2d3748;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- App navbar (glass, sticky) --- */
+        .app-nav {
+          position: sticky; top: 0; z-index: 1000;
+          display: flex; align-items: center; justify-content: space-between;
+          padding: 0.75rem 2rem;
+          background: rgba(17, 24, 39, 0.7);
+          backdrop-filter: blur(12px);
+          border-bottom: 1px solid rgba(66,153,225,0.25);
+          box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+        .app-nav .brand {
+          color: #fff; font-weight: 700; text-decoration: none; letter-spacing: .3px; font-size: 1.2rem;
+        }
+        .app-nav .nav-links { display: flex; gap: 0.75rem; align-items: center; }
+        .app-nav .nav-link {
+          color: #e2e8f0; text-decoration: none; padding: .35rem .6rem; border-radius: 8px;
+          transition: background .2s, color .2s; font-weight: 500;
+        }
+        .app-nav .nav-link:hover { background: rgba(255,255,255,.12); color: #fff; }
+        .app-nav .btn {
+          color:#fff; background: rgba(66,153,225,.9); border:1px solid rgba(255,255,255,.2);
+          padding:.4rem .75rem; border-radius:10px; text-decoration:none; font-weight:600;
+          transition: all 0.3s ease;
+        }
+        .app-nav .btn:hover { 
+          background: rgba(66,153,225,1); 
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+        }
+        .app-nav .navbar-text {
+          color: #e2e8f0;
+          margin-right: 1rem;
+        }
+
+        /* Main content styling */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(66, 153, 225, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .glass-button {
+            background: linear-gradient(135deg, rgba(66, 153, 225, 0.9) 0%, rgba(49, 130, 206, 0.9) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 0.75rem 2rem;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 16px rgba(66, 153, 225, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            border: none;
+            width: 100%;
+        }
+
+        .glass-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(66, 153, 225, 0.4);
+            background: linear-gradient(135deg, rgba(66, 153, 225, 1) 0%, rgba(49, 130, 206, 1) 100%);
+            color: white;
+            text-decoration: none;
+        }
+
+        .glass-button:active {
+            transform: translateY(0);
+        }
+
+        .glass-button-outline {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(66, 153, 225, 0.6);
+            border-radius: 12px;
+            padding: 0.75rem 2rem;
+            color: #2b6cb0;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+        }
+
+        .glass-button-outline:hover {
+            background: rgba(66, 153, 225, 0.1);
+            border-color: rgba(66, 153, 225, 0.8);
+            color: #2b6cb0;
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+        .glass-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(66, 153, 225, 0.3);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            color: #2d3748;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .glass-input::placeholder {
+            color: #a0aec0;
+        }
+
+        .glass-input:focus {
+            outline: none;
+            border-color: #4299e1;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+        }
+
+        .form-label {
+            color: #2d3748;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .alert-glass {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 12px;
+            border: 1px solid rgba(66, 153, 225, 0.2);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .alert-success {
+            background: rgba(72, 187, 120, 0.15);
+            color: #2f855a;
+            border-color: rgba(72, 187, 120, 0.3);
+        }
+
+        .alert-danger {
+            background: rgba(245, 101, 101, 0.15);
+            color: #c53030;
+            border-color: rgba(245, 101, 101, 0.3);
+        }
+
+        .alert-info {
+            background: rgba(66, 153, 225, 0.15);
+            color: #2b6cb0;
+            border-color: rgba(66, 153, 225, 0.3);
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(66, 153, 225, 0.1);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(66, 153, 225, 0.4);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(66, 153, 225, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .app-nav {
+                padding: 0.75rem 1rem;
+            }
+            
+            .app-nav .nav-links { 
+                gap: 0.5rem; 
+                flex-wrap: wrap; 
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .glass-card {
+                padding: 1.5rem;
+            }
+        }
+        .flash-container {
+          position: fixed;
+          top: 70px; /* right under navbar */
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 2000;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          width: auto;
+          max-width: 450px;
+          padding: 0 10px;
+          animation: fadeIn 0.4s ease-out;
+        }
+
+        .flash-container .alert {
+            padding: 12px 16px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(16px);
+            animation: slideDown 0.3s ease-out;
+        }

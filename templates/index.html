@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="glass-card" style="max-width: 600px; width: 100%;">
+  <div style="text-align: center;">
+    <h1 style="color: #2b6cb0; font-size: 3rem; font-weight: 700; margin-bottom: 1rem;">
+      👋 Welcome
+    </h1>
+    <p style="color: #4a5568; font-size: 1.2rem; line-height: 1.6; margin-bottom: 2rem;">
+      An AI-powered compliance assistant designed to help TikTok teams detect geo-specific legal requirements with greater precision.
+      Chat with our intelligent bot, explore regulations, and contribute new legal sources to strengthen our compliance knowledge base.
+    </p>
+    <div style="display: flex; gap: 1rem; flex-direction: column; max-width: 300px; margin: 0 auto;">
+      {% if current_user.is_authenticated %}
+        <a class="glass-button" href="{{ url_for('chat') }}">Start Chatting</a>
+        <a class="glass-button-outline" href="{{ url_for('sources') }}">Manage Sources</a>
+      {% else %}
+        <a class="glass-button" href="{{ url_for('login') }}">Get Started</a>
+        <a class="glass-button-outline" href="{{ url_for('register') }}">Create Account</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
