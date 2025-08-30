@@ -50,7 +50,6 @@ This project demonstrates how to combine secure web applications, vector-based r
 ├── templates/          # Jinja2 templates (index, login, chat, etc.)
 ├── static/             # CSS/JS assets
 ├── uploads/            # User-uploaded files (auto-created at runtime)
-├── FINAL.zip           # Packaged project archive
 └── requirements.txt    # Python dependencies
 ```
 
