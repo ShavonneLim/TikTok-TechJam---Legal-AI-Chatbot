@@ -1,7 +1,7 @@
 # Team TIDO
 
 **GitHub Link:** [https://github.com/ShavonneLim/TikTok-TechJam---Legal-AI-Chatbot](https://github.com/ShavonneLim/TikTok-TechJam---Legal-AI-Chatbot)  
-**YouTube Link:** [https://youtu.be/WK71iQTOsR4](https://youtu.be/WK71iQTOsR4)
+**YouTube Link:** [https://youtu.be/rqMBwLdheSI](https://youtu.be/rqMBwLdheSI)
 
 ---
 

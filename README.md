@@ -1,12 +1,10 @@
-Sure 🙂 Here's the full content of your **README.md** file:
-
----
-
 # 🧑‍⚖️ AI-Powered Legal/Regulatory Chat Assistant
 
 A secure, extensible Flask-based conversational AI platform powered by **LangChain**, **FAISS**, and **Ollama LLMs**, with **MongoDB-backed user/authentication** support and a **Retrieval-Augmented Generation (RAG)** pipeline for contextual responses.
 
 This project demonstrates how to combine secure web applications, vector-based retrieval, and AI-driven document processing into a locally runnable demo.
+
+Youtube video demo: https://youtu.be/rqMBwLdheSI
 
 ---
 
@@ -242,8 +240,3 @@ Pull requests welcome. Please ensure:
 ## 📜 License
 
 **MIT License © 2025 Your Name**
-
----
-
-Do you also want me to create a **cleaner, more visually structured README** with badges, images, and sections so it looks more professional on GitHub? It’ll make your project page stand out.
-Should I?
